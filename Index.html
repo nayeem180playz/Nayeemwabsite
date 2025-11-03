@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,6 +86,8 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* Removes the blue highlight on click */
+            outline: none; /* Removes the focus outline */
         }
 
         body {
@@ -133,32 +136,6 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: var(--primary-light);
-        }
-
-        /* Ad Styles - Responsive */
-        .ad-container {
-            max-width: 1400px;
-            margin: 20px auto;
-            padding: 0 20px;
-            text-align: center;
-        }
-
-        .ad-box {
-            background-color: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--border-radius-md);
-            padding: 15px;
-            margin: 20px 0;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 90px;
-        }
-
-        .ad-box iframe {
-            max-width: 100%;
-            border: none;
         }
 
         /* Navigation */
@@ -434,29 +411,6 @@
 
         .share-btn:hover {
             background-color: var(--primary);
-        }
-
-        /* Copy Link Button */
-        .copy-link-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem 1rem;
-            background-color: var(--glass);
-            color: var(--light);
-            border-radius: var(--border-radius-md);
-            font-size: 0.9rem;
-            transition: var(--transition);
-            cursor: pointer;
-            gap: 0.5rem;
-        }
-
-        .copy-link-btn:hover {
-            background-color: var(--primary);
-        }
-
-        .copy-link-btn i {
-            font-size: 1rem;
         }
 
         /* Sections */
@@ -837,6 +791,12 @@
             color: var(--light-dark);
             margin-bottom: 1.5rem;
             flex: 1;
+        }
+        
+        .project-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
         }
 
         /* Gallery Section */
@@ -1866,6 +1826,124 @@
             color: var(--light-dark);
             font-size: 0.9rem;
         }
+        
+        /* Project Request Modal */
+        .request-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .request-modal.active {
+            display: flex;
+        }
+
+        .request-container {
+            background-color: var(--dark);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            border: 1px solid var(--glass-border);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .request-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--light-dark);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .request-close:hover {
+            color: var(--light);
+            transform: rotate(90deg);
+        }
+
+        .request-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .request-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+
+        .request-subtitle {
+            color: var(--light-dark);
+            font-size: 0.9rem;
+        }
+
+        .request-form .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .request-form .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+            font-size: 0.9rem;
+        }
+
+        .request-form .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius-md);
+            color: var(--light);
+            font-size: 0.9rem;
+            transition: var(--transition-fast);
+        }
+
+        .request-form .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: rgba(108, 92, 231, 0.1);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        .request-success {
+            display: none;
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .request-success-icon {
+            font-size: 3rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+
+        .request-success-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--light);
+        }
+
+        .request-success-text {
+            color: var(--light-dark);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
 
         /* Responsive Design */
         @media (max-width: 1200px) {
@@ -1985,7 +2063,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .login-container, .order-container {
+            .login-container, .order-container, .request-container {
                 padding: 2rem;
             }
 
@@ -2029,7 +2107,7 @@
                 padding: 1rem;
             }
 
-            .login-container, .order-container {
+            .login-container, .order-container, .request-container {
                 padding: 1.5rem;
             }
 
@@ -2078,8 +2156,8 @@
                     </a>
                 </div>
                 <div class="animate delay-4">
-                    <button class="copy-link-btn" onclick="copyWebsiteLink()">
-                        <i class="fas fa-copy"></i> Copy Website Link
+                    <button class="btn btn-accent" id="submit-request-btn">
+                        <i class="fas fa-file-alt"></i> Submit Request
                     </button>
                 </div>
             </div>
@@ -2092,37 +2170,12 @@
 
     <!-- Apps Section -->
     <section id="apps" class="section">
-        <!-- Ad at the beginning of Apps section -->
-        <div class="ad-container">
-            <div class="ad-box">
-                <!-- Ad 1 -->
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : '5bb1e9209e0aff366e5b137e0340afa9',
-                        'format' : 'iframe',
-                        'height' : 50,
-                        'width' : 320,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/5bb1e9209e0aff366e5b137e0340afa9/invoke.js"></script>
-            </div>
-        </div>
-
         <div class="section-title">
             <h2>My Mobile Apps</h2>
             <p class="section-subtitle">Discover the applications I've created, each designed to provide unique experiences and solutions.</p>
         </div>
         <div class="cards-grid" id="apps-container">
             <!-- Apps will be loaded here dynamically -->
-        </div>
-
-        <!-- Ad at the end of Apps section -->
-        <div class="ad-container">
-            <div class="ad-box">
-                <!-- Ad 2 -->
-                <script type='text/javascript' src='//pl26859563.profitableratecpm.com/1b/20/93/1b209381d63e1c71e1c02a052b59419c.js'></script>
-            </div>
         </div>
     </section>
 
@@ -2144,7 +2197,7 @@
                 <!-- Screenshots will be loaded here -->
             </div>
             <div class="app-modal-footer">
-                <a href="#" class="btn btn-primary" id="app-download-btn">
+                <a href="#" class="btn btn-primary" id="app-download-btn" target="_blank" rel="noopener noreferrer">
                     <i class="fas fa-download"></i> Download Now
                 </a>
             </div>
@@ -2153,14 +2206,6 @@
 
     <!-- Blog Section -->
     <section id="blog" class="section">
-        <!-- Ad at the beginning of Blog section -->
-        <div class="ad-container">
-            <div class="ad-box">
-                <!-- Ad 3 -->
-                <script type='text/javascript' src='//pl26859577.profitableratecpm.com/7b/47/96/7b4796071e12adb079a211467aa70a88.js'></script>
-            </div>
-        </div>
-
         <div class="section-title">
             <h2>Latest Blog Posts</h2>
             <p class="section-subtitle">Read my thoughts on app development, technology trends, and creative processes.</p>
@@ -2168,44 +2213,10 @@
         <div class="cards-grid" id="blog-container">
             <!-- Blog posts will be loaded here dynamically -->
         </div>
-
-        <!-- Ad at the end of Blog section -->
-        <div class="ad-container">
-            <div class="ad-box">
-                <!-- Ad 4 -->
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : '3b758c3d44e0aa825b34a1cab6d15786',
-                        'format' : 'iframe',
-                        'height' : 300,
-                        'width' : 160,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/3b758c3d44e0aa825b34a1cab6d15786/invoke.js"></script>
-            </div>
-        </div>
     </section>
 
     <!-- Projects Section -->
     <section id="projects" class="section">
-        <!-- Ad at the beginning of Projects section -->
-        <div class="ad-container">
-            <div class="ad-box">
-                <!-- Ad 1 -->
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : '68ddbdfaea7a4df50e1fce7642f76ed7',
-                        'format' : 'iframe',
-                        'height' : 60,
-                        'width' : 468,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/68ddbdfaea7a4df50e1fce7642f76ed7/invoke.js"></script>
-            </div>
-        </div>
-
         <div class="section-title">
             <h2>My Projects</h2>
             <p class="section-subtitle">Explore my portfolio of completed works and ongoing development projects.</p>
@@ -2213,67 +2224,33 @@
         <div class="cards-grid" id="projects-container">
             <!-- Projects will be loaded here dynamically -->
         </div>
-
-        <!-- Ad at the end of Projects section -->
-        <div class="ad-container">
-            <div class="ad-box">
-                <!-- Ad 2 -->
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : '966d1cc1f84186c9d00ebe7b2dc022e9',
-                        'format' : 'iframe',
-                        'height' : 90,
-                        'width' : 728,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/966d1cc1f84186c9d00ebe7b2dc022e9/invoke.js"></script>
+    </section>
+    
+    <!-- Project Details Modal -->
+    <div class="blog-modal" id="project-modal">
+        <div class="blog-modal-container">
+            <button class="blog-modal-close" id="project-modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="" alt="" class="blog-modal-image" id="project-modal-image">
+            <h2 class="blog-modal-title" id="project-modal-title"></h2>
+            <div class="blog-modal-content" id="project-modal-content"></div>
+            <div class="app-modal-footer">
+                <a href="#" class="btn btn-primary" id="project-view-btn" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-external-link-alt"></i> View Project
+                </a>
             </div>
         </div>
-    </section>
+    </div>
 
     <!-- Gallery Section -->
     <section id="gallery" class="section">
-        <!-- Ad at the beginning of Gallery section -->
-        <div class="ad-container">
-            <div class="ad-box">
-                <!-- Ad 3 -->
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : '7dbd1fb8f31b8309eee9dd0d5d49d581',
-                        'format' : 'iframe',
-                        'height' : 250,
-                        'width' : 300,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/7dbd1fb8f31b8309eee9dd0d5d49d581/invoke.js"></script>
-            </div>
-        </div>
-
         <div class="section-title">
             <h2>My Gallery</h2>
             <p class="section-subtitle">A collection of my favorite photos and moments.</p>
         </div>
         <div class="gallery-container" id="gallery-container">
             <!-- Gallery items will be loaded here dynamically -->
-        </div>
-
-        <!-- Ad at the end of Gallery section -->
-        <div class="ad-container">
-            <div class="ad-box">
-                <!-- Ad 4 -->
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : '086da7acf26c85ef6fc20ac81720a851',
-                        'format' : 'iframe',
-                        'height' : 600,
-                        'width' : 160,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/086da7acf26c85ef6fc20ac81720a851/invoke.js"></script>
-            </div>
         </div>
     </section>
 
@@ -2295,46 +2272,12 @@
 
     <!-- Store Section -->
     <section id="store" class="section">
-        <!-- Ad at the beginning of Store section -->
-        <div class="ad-container">
-            <div class="ad-box">
-                <!-- Ad 3 -->
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : '7dbd1fb8f31b8309eee9dd0d5d49d581',
-                        'format' : 'iframe',
-                        'height' : 250,
-                        'width' : 300,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/7dbd1fb8f31b8309eee9dd0d5d49d581/invoke.js"></script>
-            </div>
-        </div>
-
         <div class="section-title">
             <h2>My Store</h2>
             <p class="section-subtitle">Browse and purchase my digital products and services.</p>
         </div>
         <div class="cards-grid" id="store-container">
             <!-- Products will be loaded here dynamically -->
-        </div>
-
-        <!-- Ad at the end of Store section -->
-        <div class="ad-container">
-            <div class="ad-box">
-                <!-- Ad 4 -->
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : '086da7acf26c85ef6fc20ac81720a851',
-                        'format' : 'iframe',
-                        'height' : 600,
-                        'width' : 160,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/086da7acf26c85ef6fc20ac81720a851/invoke.js"></script>
-            </div>
         </div>
     </section>
 
@@ -2407,9 +2350,6 @@
             <div class="blog-modal-content" id="blog-modal-content"></div>
             <!-- Share buttons in blog modal -->
             <div class="blog-share-buttons">
-                <button class="share-btn" onclick="copyWebsiteLink()" title="Copy Link">
-                    <i class="fas fa-copy"></i>
-                </button>
                 <a href="#" class="share-btn" id="facebook-share" title="Share on Facebook">
                     <i class="fab fa-facebook-f"></i>
                 </a>
@@ -2422,23 +2362,6 @@
 
     <!-- Contact Section -->
     <section id="contact" class="section">
-        <!-- Ad at the beginning of Contact section -->
-        <div class="ad-container">
-            <div class="ad-box">
-                <!-- Ad 3 -->
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : '7dbd1fb8f31b8309eee9dd0d5d49d581',
-                        'format' : 'iframe',
-                        'height' : 250,
-                        'width' : 300,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/7dbd1fb8f31b8309eee9dd0d5d49d581/invoke.js"></script>
-            </div>
-        </div>
-
         <div class="section-title">
             <h2>Get In Touch</h2>
             <p class="section-subtitle">Have a project in mind or want to collaborate? I'd love to hear from you!</p>
@@ -2500,23 +2423,6 @@
                         <i class="fas fa-paper-plane"></i> Send Message
                     </button>
                 </form>
-            </div>
-        </div>
-
-        <!-- Ad at the end of Contact section -->
-        <div class="ad-container">
-            <div class="ad-box">
-                <!-- Ad 4 -->
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : '086da7acf26c85ef6fc20ac81720a851',
-                        'format' : 'iframe',
-                        'height' : 600,
-                        'width' : 160,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/086da7acf26c85ef6fc20ac81720a851/invoke.js"></script>
             </div>
         </div>
     </section>
@@ -2585,6 +2491,67 @@
             </div>
         </div>
     </div>
+    
+    <!-- Project Request Modal -->
+    <div class="request-modal" id="request-modal">
+        <div class="request-container">
+            <button class="request-close" id="request-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="request-header">
+                <h3 class="request-title">Submit Your Project Request</h3>
+                <p class="request-subtitle">Please fill out the form below to submit your project request.</p>
+            </div>
+            <form class="request-form" id="request-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="request-name" class="form-label">Full Name</label>
+                        <input type="text" id="request-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="request-email" class="form-label">Email Address</label>
+                        <input type="email" id="request-email" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="request-phone" class="form-label">Mobile Number</label>
+                        <input type="tel" id="request-phone" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="request-facebook" class="form-label">Facebook Profile Link</label>
+                        <input type="url" id="request-facebook" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="request-project-name" class="form-label">Project Name</label>
+                    <input type="text" id="request-project-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="request-project-summary" class="form-label">Project Summary</label>
+                    <textarea id="request-project-summary" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="request-project-details" class="form-label">Project Details</label>
+                    <textarea id="request-project-details" class="form-control" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-paper-plane"></i> Submit Request
+                </button>
+            </form>
+            <div class="request-success" id="request-success">
+                <div class="request-success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 class="request-success-title">Request Submitted Successfully!</h3>
+                <p class="request-success-text">Thank you for your request. We'll get back to you soon.</p>
+                <button class="btn btn-accent" id="request-continue">
+                    <i class="fas fa-arrow-left"></i> Back to Website
+                </button>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Admin Panel -->
     <div class="admin-panel" id="admin-panel">
@@ -2615,6 +2582,9 @@
             </button>
             <button class="admin-tab" data-tab="orders">
                 <i class="fas fa-shopping-cart"></i> Orders
+            </button>
+            <button class="admin-tab" data-tab="requests">
+                <i class="fas fa-file-alt"></i> Project Requests
             </button>
         </div>
 
@@ -2896,6 +2866,30 @@
                 </table>
             </div>
         </div>
+        
+        <!-- Project Requests Admin -->
+        <div class="admin-content" id="admin-requests">
+            <div class="admin-list">
+                <h3 class="admin-list-title">
+                    <i class="fas fa-file-alt"></i> Project Requests
+                </h3>
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Project Name</th>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requests-list">
+                        <!-- Requests will be listed here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <!-- Firebase SDK -->
@@ -2936,6 +2930,7 @@
         const closeAdmin = document.getElementById('close-admin');
         const adminTabs = document.querySelectorAll('.admin-tab');
         const adminContents = document.querySelectorAll('.admin-content');
+        const submitRequestBtn = document.getElementById('submit-request-btn');
 
         // App Form Elements
         const appForm = document.getElementById('app-form');
@@ -2954,6 +2949,14 @@
         const projectSubmit = document.getElementById('project-submit');
         const projectCancel = document.getElementById('project-cancel');
         const projectsList = document.getElementById('projects-list');
+        
+        // Project Request Elements
+        const requestModal = document.getElementById('request-modal');
+        const requestClose = document.getElementById('request-close');
+        const requestForm = document.getElementById('request-form');
+        const requestSuccess = document.getElementById('request-success');
+        const requestContinue = document.getElementById('request-continue');
+        const requestsList = document.getElementById('requests-list');
 
         // Gallery Form Elements
         const galleryForm = document.getElementById('gallery-form');
@@ -2994,6 +2997,14 @@
         const blogModalContent = document.getElementById('blog-modal-content');
         const facebookShare = document.getElementById('facebook-share');
         const twitterShare = document.getElementById('twitter-share');
+        
+        // Project Modal Elements
+        const projectModal = document.getElementById('project-modal');
+        const projectModalClose = document.getElementById('project-modal-close');
+        const projectModalImage = document.getElementById('project-modal-image');
+        const projectModalTitle = document.getElementById('project-modal-title');
+        const projectModalContent = document.getElementById('project-modal-content');
+        const projectViewBtn = document.getElementById('project-view-btn');
 
         // Gallery Modal Elements
         const galleryModal = document.getElementById('gallery-modal');
@@ -3021,621 +3032,311 @@
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', () => {
-            // Load initial data from Firebase
+            loadInitialData();
+            setupEventListeners();
+        });
+
+        function loadInitialData() {
             loadApps();
             loadBlogPosts();
             loadProjects();
             loadGallery();
             loadProducts();
             loadOrders();
-            
-            // Setup event listeners
-            setupEventListeners();
-        });
+            loadRequests();
+        }
 
         function setupEventListeners() {
-            // Mobile Navigation Toggle
             hamburger.addEventListener('click', () => {
                 navLinks.classList.toggle('active');
                 hamburger.innerHTML = navLinks.classList.contains('active') ? 
                     '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
             });
 
-            // Close mobile menu when clicking a link
             navLinksAll.forEach(link => {
                 link.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                    hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-                    
-                    // Update active nav link
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
                     navLinksAll.forEach(navLink => navLink.classList.remove('active'));
                     link.classList.add('active');
                 });
             });
 
-            // Header scroll effect
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-
-                // Back to top button
-                if (window.scrollY > 300) {
-                    backToTop.classList.add('active');
-                } else {
-                    backToTop.classList.remove('active');
-                }
+                header.classList.toggle('scrolled', window.scrollY > 50);
+                backToTop.classList.toggle('active', window.scrollY > 300);
             });
 
-            // Back to top button
-            backToTop.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
+            backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-            // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
+                    const targetElement = document.querySelector(this.getAttribute('href'));
                     if (targetElement) {
                         window.scrollTo({
-                            top: targetElement.offsetTop - 80,
+                            top: targetElement.offsetTop - header.offsetHeight,
                             behavior: 'smooth'
                         });
                     }
                 });
             });
+            
+            submitRequestBtn.addEventListener('click', () => requestModal.classList.add('active'));
 
-            // Contact form submission
-            const contactForm = document.getElementById('contactForm');
-            contactForm.addEventListener('submit', (e) => {
+            document.getElementById('contactForm').addEventListener('submit', (e) => {
                 e.preventDefault();
-                
                 const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const subject = document.getElementById('subject').value;
-                const message = document.getElementById('message').value;
-                
-                // Here you would typically send the form data to a server
-                console.log({ name, email, subject, message });
-                
-                // Show success message
                 alert(`Thank you for your message, ${name}! I will get back to you soon.`);
-                
-                // Reset the form
-                contactForm.reset();
+                e.target.reset();
             });
 
-            // Admin Login
             adminLink.addEventListener('click', (e) => {
                 e.preventDefault();
                 loginModal.classList.add('active');
             });
 
-            loginClose.addEventListener('click', () => {
-                loginModal.classList.remove('active');
-                loginError.classList.remove('active');
-            });
+            loginClose.addEventListener('click', () => loginModal.classList.remove('active'));
 
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                
                 const email = document.getElementById('login-email').value;
                 const password = document.getElementById('login-password').value;
                 
-                // Authenticate with Firebase
                 auth.signInWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        // Signed in
+                    .then(() => {
                         loginModal.classList.remove('active');
                         adminPanel.classList.add('active');
                         loginError.classList.remove('active');
-                        document.getElementById('login-email').value = '';
-                        document.getElementById('login-password').value = '';
+                        loginForm.reset();
                     })
-                    .catch((error) => {
-                        loginError.classList.add('active');
-                        console.error("Login error:", error);
-                    });
+                    .catch(() => loginError.classList.add('active'));
             });
 
-            // Close Admin Panel
             closeAdmin.addEventListener('click', () => {
                 adminPanel.classList.remove('active');
                 resetForms();
-                // Sign out when closing admin panel
                 auth.signOut();
             });
 
-            // Admin Tabs
             adminTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
-                    // Remove active class from all tabs and contents
                     adminTabs.forEach(t => t.classList.remove('active'));
                     adminContents.forEach(c => c.classList.remove('active'));
-                    
-                    // Add active class to clicked tab and corresponding content
                     tab.classList.add('active');
-                    const tabId = tab.getAttribute('data-tab');
-                    document.getElementById(`admin-${tabId}`).classList.add('active');
+                    document.getElementById(`admin-${tab.dataset.tab}`).classList.add('active');
                 });
             });
 
-            // App Form Submission
-            appForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const title = document.getElementById('app-title').value;
-                const image = document.getElementById('app-image').value;
-                const description = document.getElementById('app-description').value;
-                const link = document.getElementById('app-link').value;
-                const rating = parseFloat(document.getElementById('app-rating').value);
-                const screenshots = document.getElementById('app-screenshots').value
-                    .split(',')
-                    .map(url => url.trim())
-                    .filter(url => url.length > 0);
-                
-                const appData = {
-                    title,
-                    image,
-                    description,
-                    link,
-                    rating,
-                    screenshots
-                };
-                
-                if (editingAppId !== null) {
-                    // Update existing app in Firebase
-                    database.ref('apps/' + editingAppId).update(appData)
-                        .then(() => {
-                            editingAppId = null;
-                            appSubmit.innerHTML = '<i class="fas fa-save"></i> Save App';
-                            appCancel.style.display = 'none';
-                            appForm.reset();
-                            loadApps(); // Refresh the apps list
-                        })
-                        .catch(error => {
-                            console.error("Error updating app:", error);
-                            alert("Error updating app. Please try again.");
-                        });
-                } else {
-                    // Add new app to Firebase
-                    const newAppRef = database.ref('apps').push();
-                    newAppRef.set(appData)
-                        .then(() => {
-                            appForm.reset();
-                            loadApps(); // Refresh the apps list
-                        })
-                        .catch(error => {
-                            console.error("Error adding app:", error);
-                            alert("Error adding app. Please try again.");
-                        });
-                }
-            });
+            // Form Submissions
+            appForm.addEventListener('submit', handleFormSubmit);
+            blogForm.addEventListener('submit', handleFormSubmit);
+            projectForm.addEventListener('submit', handleFormSubmit);
+            galleryForm.addEventListener('submit', handleFormSubmit);
+            productForm.addEventListener('submit', handleFormSubmit);
+            orderForm.addEventListener('submit', handleOrderSubmit);
+            requestForm.addEventListener('submit', handleRequestSubmit);
 
-            // App Cancel Edit
-            appCancel.addEventListener('click', () => {
-                editingAppId = null;
-                appSubmit.innerHTML = '<i class="fas fa-save"></i> Save App';
-                appCancel.style.display = 'none';
-                appForm.reset();
-            });
-
-            // Blog Form Submission
-            blogForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const title = document.getElementById('blog-title').value;
-                const image = document.getElementById('blog-image').value;
-                const date = document.getElementById('blog-date').value;
-                const description = document.getElementById('blog-description').value;
-                const link = document.getElementById('blog-link').value;
-                const readTime = parseInt(document.getElementById('blog-read-time').value);
-                
-                const blogData = {
-                    title,
-                    image,
-                    date,
-                    description,
-                    link,
-                    readTime
-                };
-                
-                if (editingBlogId !== null) {
-                    // Update existing blog post in Firebase
-                    database.ref('blog/' + editingBlogId).update(blogData)
-                        .then(() => {
-                            editingBlogId = null;
-                            blogSubmit.innerHTML = '<i class="fas fa-save"></i> Save Post';
-                            blogCancel.style.display = 'none';
-                            blogForm.reset();
-                            loadBlogPosts(); // Refresh the blog list
-                        })
-                        .catch(error => {
-                            console.error("Error updating blog post:", error);
-                            alert("Error updating blog post. Please try again.");
-                        });
-                } else {
-                    // Add new blog post to Firebase
-                    const newBlogRef = database.ref('blog').push();
-                    newBlogRef.set(blogData)
-                        .then(() => {
-                            blogForm.reset();
-                            loadBlogPosts(); // Refresh the blog list
-                        })
-                        .catch(error => {
-                            console.error("Error adding blog post:", error);
-                            alert("Error adding blog post. Please try again.");
-                        });
-                }
-            });
-
-            // Blog Cancel Edit
-            blogCancel.addEventListener('click', () => {
-                editingBlogId = null;
-                blogSubmit.innerHTML = '<i class="fas fa-save"></i> Save Post';
-                blogCancel.style.display = 'none';
-                blogForm.reset();
-            });
-
-            // Project Form Submission
-            projectForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const title = document.getElementById('project-title').value;
-                const image = document.getElementById('project-image').value;
-                const description = document.getElementById('project-description').value;
-                const link = document.getElementById('project-link').value;
-                const tags = document.getElementById('project-tags').value.split(',').map(tag => tag.trim());
-                
-                const projectData = {
-                    title,
-                    image,
-                    description,
-                    link,
-                    tags
-                };
-                
-                if (editingProjectId !== null) {
-                    // Update existing project in Firebase
-                    database.ref('projects/' + editingProjectId).update(projectData)
-                        .then(() => {
-                            editingProjectId = null;
-                            projectSubmit.innerHTML = '<i class="fas fa-save"></i> Save Project';
-                            projectCancel.style.display = 'none';
-                            projectForm.reset();
-                            loadProjects(); // Refresh the projects list
-                        })
-                        .catch(error => {
-                            console.error("Error updating project:", error);
-                            alert("Error updating project. Please try again.");
-                        });
-                } else {
-                    // Add new project to Firebase
-                    const newProjectRef = database.ref('projects').push();
-                    newProjectRef.set(projectData)
-                        .then(() => {
-                            projectForm.reset();
-                            loadProjects(); // Refresh the projects list
-                        })
-                        .catch(error => {
-                            console.error("Error adding project:", error);
-                            alert("Error adding project. Please try again.");
-                        });
-                }
-            });
-
-            // Project Cancel Edit
-            projectCancel.addEventListener('click', () => {
-                editingProjectId = null;
-                projectSubmit.innerHTML = '<i class="fas fa-save"></i> Save Project';
-                projectCancel.style.display = 'none';
-                projectForm.reset();
-            });
-
-            // Gallery Form Submission
-            galleryForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const image = document.getElementById('gallery-image').value;
-                const title = document.getElementById('gallery-title').value || '';
-                
-                const galleryData = {
-                    image,
-                    title
-                };
-                
-                if (editingGalleryId !== null) {
-                    // Update existing gallery item in Firebase
-                    database.ref('gallery/' + editingGalleryId).update(galleryData)
-                        .then(() => {
-                            editingGalleryId = null;
-                            gallerySubmit.innerHTML = '<i class="fas fa-save"></i> Save Photo';
-                            galleryCancel.style.display = 'none';
-                            galleryForm.reset();
-                            loadGallery(); // Refresh the gallery list
-                        })
-                        .catch(error => {
-                            console.error("Error updating gallery item:", error);
-                            alert("Error updating gallery item. Please try again.");
-                        });
-                } else {
-                    // Add new gallery item to Firebase
-                    const newGalleryRef = database.ref('gallery').push();
-                    newGalleryRef.set(galleryData)
-                        .then(() => {
-                            galleryForm.reset();
-                            loadGallery(); // Refresh the gallery list
-                        })
-                        .catch(error => {
-                            console.error("Error adding gallery item:", error);
-                            alert("Error adding gallery item. Please try again.");
-                        });
-                }
-            });
-
-            // Gallery Cancel Edit
-            galleryCancel.addEventListener('click', () => {
-                editingGalleryId = null;
-                gallerySubmit.innerHTML = '<i class="fas fa-save"></i> Save Photo';
-                galleryCancel.style.display = 'none';
-                galleryForm.reset();
-            });
-
-            // Product Form Submission
-            productForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const title = document.getElementById('product-title').value;
-                const image = document.getElementById('product-image').value;
-                const price = parseFloat(document.getElementById('product-price').value);
-                const category = document.getElementById('product-category').value;
-                const description = document.getElementById('product-description').value;
-                
-                const productData = {
-                    title,
-                    image,
-                    price,
-                    category,
-                    description,
-                    createdAt: new Date().toISOString()
-                };
-                
-                if (editingProductId !== null) {
-                    // Update existing product in Firebase
-                    database.ref('products/' + editingProductId).update(productData)
-                        .then(() => {
-                            editingProductId = null;
-                            productSubmit.innerHTML = '<i class="fas fa-save"></i> Save Product';
-                            productCancel.style.display = 'none';
-                            productForm.reset();
-                            loadProducts(); // Refresh the products list
-                        })
-                        .catch(error => {
-                            console.error("Error updating product:", error);
-                            alert("Error updating product. Please try again.");
-                        });
-                } else {
-                    // Add new product to Firebase
-                    const newProductRef = database.ref('products').push();
-                    newProductRef.set(productData)
-                        .then(() => {
-                            productForm.reset();
-                            loadProducts(); // Refresh the products list
-                        })
-                        .catch(error => {
-                            console.error("Error adding product:", error);
-                            alert("Error adding product. Please try again.");
-                        });
-                }
-            });
-
-            // Product Cancel Edit
-            productCancel.addEventListener('click', () => {
-                editingProductId = null;
-                productSubmit.innerHTML = '<i class="fas fa-save"></i> Save Product';
-                productCancel.style.display = 'none';
-                productForm.reset();
-            });
-
-            // Order Modal
+            // Cancel Buttons
+            appCancel.addEventListener('click', () => resetFormState('app'));
+            blogCancel.addEventListener('click', () => resetFormState('blog'));
+            projectCancel.addEventListener('click', () => resetFormState('project'));
+            galleryCancel.addEventListener('click', () => resetFormState('gallery'));
+            productCancel.addEventListener('click', () => resetFormState('product'));
+            
+            // Modals
             orderClose.addEventListener('click', () => {
                 orderModal.classList.remove('active');
                 orderForm.style.display = 'block';
                 orderSuccess.style.display = 'none';
             });
-
-            orderContinue.addEventListener('click', () => {
-                orderModal.classList.remove('active');
-                orderForm.style.display = 'block';
-                orderSuccess.style.display = 'none';
+            orderContinue.addEventListener('click', () => orderClose.click());
+            
+            requestClose.addEventListener('click', () => {
+                requestModal.classList.remove('active');
+                requestForm.style.display = 'block';
+                requestSuccess.style.display = 'none';
             });
+            requestContinue.addEventListener('click', () => requestClose.click());
+            
+            appModalClose.addEventListener('click', () => appModal.classList.remove('active'));
+            blogModalClose.addEventListener('click', () => blogModal.classList.remove('active'));
+            projectModalClose.addEventListener('click', () => projectModal.classList.remove('active'));
+            galleryModalClose.addEventListener('click', () => galleryModal.classList.remove('active'));
 
-            orderForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const name = document.getElementById('order-name').value;
-                const email = document.getElementById('order-email').value;
-                const phone = document.getElementById('order-phone').value;
-                const country = document.getElementById('order-country').value;
-                const address = document.getElementById('order-address').value;
-                const notes = document.getElementById('order-notes').value;
-                const productId = document.getElementById('order-product-id').value;
-                
-                const orderData = {
-                    productId,
-                    productTitle: document.getElementById('order-product-title').textContent.replace('Product: ', ''),
-                    customerName: name,
-                    customerEmail: email,
-                    customerPhone: phone,
-                    customerCountry: country,
-                    customerAddress: address,
-                    notes,
-                    status: 'pending',
-                    createdAt: new Date().toISOString()
-                };
-                
-                // Save order to Firebase
-                const newOrderRef = database.ref('orders').push();
-                newOrderRef.set(orderData)
-                    .then(() => {
-                        // Show success message
-                        orderForm.style.display = 'none';
-                        orderSuccess.style.display = 'block';
-                        
-                        // Reset form
-                        orderForm.reset();
-                    })
-                    .catch(error => {
-                        console.error("Error saving order:", error);
-                        alert("Error placing order. Please try again.");
-                    });
-            });
-
-            // App Modal Close
-            appModalClose.addEventListener('click', () => {
-                appModal.classList.remove('active');
-            });
-
-            // Blog Modal Close
-            blogModalClose.addEventListener('click', () => {
-                blogModal.classList.remove('active');
-            });
-
-            // Gallery Modal Close
-            galleryModalClose.addEventListener('click', () => {
-                galleryModal.classList.remove('active');
-            });
-
-            // Gallery Modal Navigation
-            galleryModalPrev.addEventListener('click', (e) => {
-                e.stopPropagation();
-                navigateGallery(-1);
-            });
-
-            galleryModalNext.addEventListener('click', (e) => {
-                e.stopPropagation();
-                navigateGallery(1);
-            });
-
-            // Keyboard navigation for gallery
+            // Gallery Navigation
+            galleryModalPrev.addEventListener('click', () => navigateGallery(-1));
+            galleryModalNext.addEventListener('click', () => navigateGallery(1));
             document.addEventListener('keydown', (e) => {
                 if (galleryModal.classList.contains('active')) {
-                    if (e.key === 'ArrowLeft') {
-                        navigateGallery(-1);
-                    } else if (e.key === 'ArrowRight') {
-                        navigateGallery(1);
-                    } else if (e.key === 'Escape') {
-                        galleryModal.classList.remove('active');
-                    }
+                    if (e.key === 'ArrowLeft') navigateGallery(-1);
+                    else if (e.key === 'ArrowRight') navigateGallery(1);
+                    else if (e.key === 'Escape') galleryModal.classList.remove('active');
                 }
             });
         }
+        
+        // Generic Form Submit Handler
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const formId = e.target.id;
+            let data = {};
+            let refPath = '';
+            let editingId = null;
 
-        // Load data from Firebase
-        function loadApps() {
-            database.ref('apps').on('value', (snapshot) => {
-                const appsData = snapshot.val() || {};
-                renderApps(appsData);
-                renderAdminApps(appsData);
+            if (formId === 'app-form') {
+                refPath = 'apps';
+                editingId = editingAppId;
+                data = {
+                    title: document.getElementById('app-title').value,
+                    image: document.getElementById('app-image').value,
+                    description: document.getElementById('app-description').value,
+                    link: document.getElementById('app-link').value,
+                    rating: parseFloat(document.getElementById('app-rating').value),
+                    screenshots: document.getElementById('app-screenshots').value.split(',').map(url => url.trim()).filter(Boolean)
+                };
+            } else if (formId === 'blog-form') {
+                refPath = 'blog';
+                editingId = editingBlogId;
+                data = {
+                    title: document.getElementById('blog-title').value,
+                    image: document.getElementById('blog-image').value,
+                    date: document.getElementById('blog-date').value,
+                    description: document.getElementById('blog-description').value,
+                    link: document.getElementById('blog-link').value,
+                    readTime: parseInt(document.getElementById('blog-read-time').value)
+                };
+            } else if (formId === 'project-form') {
+                refPath = 'projects';
+                editingId = editingProjectId;
+                data = {
+                    title: document.getElementById('project-title').value,
+                    image: document.getElementById('project-image').value,
+                    description: document.getElementById('project-description').value,
+                    link: document.getElementById('project-link').value,
+                    tags: document.getElementById('project-tags').value.split(',').map(tag => tag.trim()).filter(Boolean)
+                };
+            } else if (formId === 'gallery-form') {
+                refPath = 'gallery';
+                editingId = editingGalleryId;
+                data = {
+                    image: document.getElementById('gallery-image').value,
+                    title: document.getElementById('gallery-title').value
+                };
+            } else if (formId === 'product-form') {
+                refPath = 'products';
+                editingId = editingProductId;
+                data = {
+                    title: document.getElementById('product-title').value,
+                    image: document.getElementById('product-image').value,
+                    price: parseFloat(document.getElementById('product-price').value),
+                    category: document.getElementById('product-category').value,
+                    description: document.getElementById('product-description').value,
+                    createdAt: new Date().toISOString()
+                };
+            }
+
+            const type = refPath.slice(0, -1);
+            if (editingId) {
+                database.ref(`${refPath}/${editingId}`).update(data)
+                    .then(() => resetFormState(type))
+                    .catch(err => console.error(`Error updating ${type}:`, err));
+            } else {
+                database.ref(refPath).push(data)
+                    .then(() => e.target.reset())
+                    .catch(err => console.error(`Error adding ${type}:`, err));
+            }
+        }
+
+        function handleOrderSubmit(e) {
+            e.preventDefault();
+            const orderData = {
+                productId: document.getElementById('order-product-id').value,
+                productTitle: document.getElementById('order-product-title').textContent.replace('Product: ', ''),
+                customerName: document.getElementById('order-name').value,
+                customerEmail: document.getElementById('order-email').value,
+                customerPhone: document.getElementById('order-phone').value,
+                customerCountry: document.getElementById('order-country').value,
+                customerAddress: document.getElementById('order-address').value,
+                notes: document.getElementById('order-notes').value,
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            };
+            database.ref('orders').push(orderData).then(() => {
+                orderForm.style.display = 'none';
+                orderSuccess.style.display = 'block';
+                orderForm.reset();
+            }).catch(err => console.error("Order submission error:", err));
+        }
+
+        function handleRequestSubmit(e) {
+            e.preventDefault();
+            const requestData = {
+                customerName: document.getElementById('request-name').value,
+                customerEmail: document.getElementById('request-email').value,
+                customerPhone: document.getElementById('request-phone').value,
+                customerFacebook: document.getElementById('request-facebook').value,
+                projectName: document.getElementById('request-project-name').value,
+                projectSummary: document.getElementById('request-project-summary').value,
+                projectDetails: document.getElementById('request-project-details').value,
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            };
+            database.ref('requests').push(requestData).then(() => {
+                requestForm.style.display = 'none';
+                requestSuccess.style.display = 'block';
+                requestForm.reset();
+            }).catch(err => console.error("Request submission error:", err));
+        }
+
+        function loadAndRender(path, renderFn, adminRenderFn) {
+            database.ref(path).on('value', (snapshot) => {
+                const data = snapshot.val() || {};
+                if (renderFn) renderFn(data);
+                if (adminRenderFn) adminRenderFn(data);
             });
         }
 
-        function loadBlogPosts() {
-            database.ref('blog').on('value', (snapshot) => {
-                const blogData = snapshot.val() || {};
-                renderBlogPosts(blogData);
-                renderAdminBlog(blogData);
-            });
-        }
-
-        function loadProjects() {
-            database.ref('projects').on('value', (snapshot) => {
-                const projectsData = snapshot.val() || {};
-                renderProjects(projectsData);
-                renderAdminProjects(projectsData);
-            });
-        }
-
-        function loadGallery() {
-            database.ref('gallery').on('value', (snapshot) => {
-                const galleryData = snapshot.val() || {};
-                renderGallery(galleryData);
-                renderAdminGallery(galleryData);
-            });
-        }
-
-        function loadProducts() {
-            database.ref('products').on('value', (snapshot) => {
-                const productsData = snapshot.val() || {};
-                renderProducts(productsData);
-                renderAdminProducts(productsData);
-            });
-        }
-
-        function loadOrders() {
-            database.ref('orders').on('value', (snapshot) => {
-                const ordersData = snapshot.val() || {};
-                renderAdminOrders(ordersData);
-            });
-        }
+        const loadApps = () => loadAndRender('apps', renderApps, renderAdminApps);
+        const loadBlogPosts = () => loadAndRender('blog', renderBlogPosts, renderAdminBlog);
+        const loadProjects = () => loadAndRender('projects', renderProjects, renderAdminProjects);
+        const loadGallery = () => loadAndRender('gallery', renderGallery, renderAdminGallery);
+        const loadProducts = () => loadAndRender('products', renderProducts, renderAdminProducts);
+        const loadOrders = () => loadAndRender('orders', null, renderAdminOrders);
+        const loadRequests = () => loadAndRender('requests', null, renderAdminRequests);
 
         // Render Functions
-        function renderApps(appsData) {
-            appsContainer.innerHTML = '';
-            
-            if (!appsData) return;
-            
-            Object.entries(appsData).forEach(([id, app]) => {
-                const stars = '?'.repeat(Math.floor(app.rating)) + '?'.repeat(5 - Math.ceil(app.rating));
-                
-                const appCard = document.createElement('div');
-                appCard.className = 'app-card animate';
-                appCard.innerHTML = `
+        function renderApps(data) {
+            appsContainer.innerHTML = Object.entries(data).map(([id, app]) => `
+                <div class="app-card animate">
                     <div class="app-img-container">
-                        <img src="${app.image}" alt="${app.title} - Mobile App by Nayeem Hossen" class="app-img">
-                        <div class="app-badge">NEW</div>
+                        <img src="${app.image}" alt="${app.title}" class="app-img">
+                        ${app.badge ? `<div class="app-badge">${app.badge}</div>` : ''}
                     </div>
                     <div class="app-content">
                         <h3 class="app-title">${app.title}</h3>
                         <p class="app-description">${app.description.substring(0, 100)}...</p>
                         <div class="app-footer">
-                            <div class="app-rating" title="${app.rating} out of 5 stars">${stars}</div>
-                            <button class="btn btn-primary" onclick="viewAppDetails('${id}')">
+                            <div class="app-rating" title="${app.rating} stars">${'★'.repeat(Math.round(app.rating))}${'☆'.repeat(5 - Math.round(app.rating))}</div>
+                            <button class="btn btn-primary btn-app-details" data-id="${id}">
                                 <i class="fas fa-info-circle"></i> Details
                             </button>
                         </div>
                     </div>
-                `;
-                appsContainer.appendChild(appCard);
-            });
+                </div>
+            `).join('');
+            appsContainer.querySelectorAll('.btn-app-details').forEach(btn => btn.addEventListener('click', (e) => viewAppDetails(e.currentTarget.dataset.id)));
         }
 
-        function renderBlogPosts(blogData) {
-            blogContainer.innerHTML = '';
-            
-            if (!blogData) return;
-            
-            Object.entries(blogData).forEach(([id, post]) => {
-                const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-                
-                const blogCard = document.createElement('div');
-                blogCard.className = 'blog-card animate';
-                blogCard.innerHTML = `
+        function renderBlogPosts(data) {
+            blogContainer.innerHTML = Object.entries(data).map(([id, post]) => {
+                const formattedDate = new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                return `
+                <div class="blog-card animate">
                     <div class="blog-img-container">
-                        <img src="${post.image}" alt="${post.title} - Blog Post by Nayeem Hossen" class="blog-img">
+                        <img src="${post.image}" alt="${post.title}" class="blog-img">
                         <div class="blog-date">${formattedDate}</div>
                     </div>
                     <div class="blog-content">
@@ -3643,82 +3344,53 @@
                         <p class="blog-excerpt">${post.description.substring(0, 100)}...</p>
                         <div class="blog-footer">
                             <span class="blog-read-time">${post.readTime} min read</span>
-                            <button class="btn btn-primary" onclick="viewBlogPost('${id}')">
+                            <button class="btn btn-primary btn-blog-details" data-id="${id}">
                                 <i class="fas fa-book-open"></i> Read More
                             </button>
                         </div>
                     </div>
-                `;
-                blogContainer.appendChild(blogCard);
-            });
+                </div>`;
+            }).join('');
+            blogContainer.querySelectorAll('.btn-blog-details').forEach(btn => btn.addEventListener('click', (e) => viewBlogPost(e.currentTarget.dataset.id)));
         }
 
-        function renderProjects(projectsData) {
-            projectsContainer.innerHTML = '';
-            
-            if (!projectsData) return;
-            
-            Object.entries(projectsData).forEach(([id, project]) => {
-                const tagsHTML = project.tags.map(tag => 
-                    `<span class="project-tag">${tag}</span>`
-                ).join('');
-                
-                const projectCard = document.createElement('div');
-                projectCard.className = 'project-card animate';
-                projectCard.innerHTML = `
+        function renderProjects(data) {
+            projectsContainer.innerHTML = Object.entries(data).map(([id, project]) => `
+                <div class="project-card animate">
                     <div class="project-img-container">
-                        <img src="${project.image}" alt="${project.title} - Project by Nayeem Hossen" class="project-img">
-                        <div class="project-tags">${tagsHTML}</div>
+                        <img src="${project.image}" alt="${project.title}" class="project-img">
+                        <div class="project-tags">${project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}</div>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">${project.title}</h3>
-                        <p class="project-description">${project.description}</p>
-                        <a href="${project.link}" class="btn btn-primary">
-                            <i class="fas fa-external-link-alt"></i> View Project
-                        </a>
+                        <p class="project-description">${project.description.substring(0, 100)}...</p>
+                        <div class="project-footer">
+                            <a href="${project.link}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-external-link-alt"></i> View Project
+                            </a>
+                            <button class="btn btn-outline btn-project-details" data-id="${id}">Read More</button>
+                        </div>
                     </div>
-                `;
-                projectsContainer.appendChild(projectCard);
-            });
+                </div>
+            `).join('');
+            projectsContainer.querySelectorAll('.btn-project-details').forEach(btn => btn.addEventListener('click', (e) => viewProjectDetails(e.currentTarget.dataset.id)));
         }
 
-        function renderGallery(galleryData) {
-            galleryContainer.innerHTML = '';
-            galleryItems = [];
-            
-            if (!galleryData) return;
-            
-            Object.entries(galleryData).forEach(([id, galleryItem]) => {
-                galleryItems.push({
-                    id,
-                    ...galleryItem
-                });
-                
-                const galleryItemElement = document.createElement('div');
-                galleryItemElement.className = 'gallery-item animate';
-                galleryItemElement.innerHTML = `
-                    <img src="${galleryItem.image}" alt="${galleryItem.title || 'Gallery image'}" class="gallery-img">
-                `;
-                
-                galleryItemElement.addEventListener('click', () => {
-                    openGalleryModal(id);
-                });
-                
-                galleryContainer.appendChild(galleryItemElement);
-            });
+        function renderGallery(data) {
+            galleryItems = Object.entries(data).map(([id, item]) => ({ id, ...item }));
+            galleryContainer.innerHTML = galleryItems.map((item, index) => `
+                <div class="gallery-item animate" data-index="${index}">
+                    <img src="${item.image}" alt="${item.title || 'Gallery image'}" class="gallery-img">
+                </div>
+            `).join('');
+            galleryContainer.querySelectorAll('.gallery-item').forEach(item => item.addEventListener('click', (e) => openGalleryModal(e.currentTarget.dataset.index)));
         }
 
-        function renderProducts(productsData) {
-            storeContainer.innerHTML = '';
-            
-            if (!productsData) return;
-            
-            Object.entries(productsData).forEach(([id, product]) => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card animate';
-                productCard.innerHTML = `
+        function renderProducts(data) {
+            storeContainer.innerHTML = Object.entries(data).map(([id, product]) => `
+                <div class="product-card animate">
                     <div class="product-img-container">
-                        <img src="${product.image}" alt="${product.title} - Product by NayeemPlayz" class="product-img">
+                        <img src="${product.image}" alt="${product.title}" class="product-img">
                         <div class="product-price">$${product.price.toFixed(2)}</div>
                     </div>
                     <div class="product-content">
@@ -3726,618 +3398,251 @@
                         <p class="product-description">${product.description}</p>
                         <div class="product-footer">
                             <span class="product-category">${product.category}</span>
-                            <button class="btn btn-primary" onclick="openOrderModal('${id}', '${product.title}')">
+                            <button class="btn btn-primary btn-order-now" data-id="${id}" data-title="${product.title}">
                                 <i class="fas fa-shopping-cart"></i> Order Now
                             </button>
                         </div>
                     </div>
-                `;
-                storeContainer.appendChild(productCard);
-            });
+                </div>
+            `).join('');
+            storeContainer.querySelectorAll('.btn-order-now').forEach(btn => btn.addEventListener('click', (e) => {
+                const { id, title } = e.currentTarget.dataset;
+                openOrderModal(id, title);
+            }));
         }
 
-        function renderAdminApps(appsData) {
-            appsList.innerHTML = '';
+        function createAdminItem(id, item, type) {
+            let content = '';
+            if (type === 'app') {
+                content = `<h4 class="admin-item-title">${item.title}</h4><p class="admin-item-desc">${item.description}</p>`;
+            } else if (type === 'blog') {
+                content = `<h4 class="admin-item-title">${item.title}</h4><p class="admin-item-desc">${item.description.substring(0, 100)}...</p>`;
+            } else if (type === 'project') {
+                content = `<h4 class="admin-item-title">${item.title}</h4><p class="admin-item-desc">${item.description}</p>`;
+            } else if (type === 'gallery') {
+                content = `<h4 class="admin-item-title">${item.title || 'Untitled'}</h4><p class="admin-item-desc">${item.image}</p>`;
+            } else if (type === 'product') {
+                content = `<h4 class="admin-item-title">${item.title}</h4><p class="admin-item-desc">$${item.price.toFixed(2)} - ${item.category}</p>`;
+            }
             
-            if (!appsData) return;
-            
-            Object.entries(appsData).forEach(([id, app]) => {
-                const stars = '?'.repeat(Math.floor(app.rating)) + '?'.repeat(5 - Math.ceil(app.rating));
+            const div = document.createElement('div');
+            div.className = 'admin-item';
+            div.innerHTML = `
+                <img src="${item.image}" alt="" class="admin-item-img">
+                <div class="admin-item-content">${content}</div>
+                <div class="admin-item-actions">
+                    <button class="btn btn-sm btn-edit" data-id="${id}" data-type="${type}"><i class="fas fa-edit"></i> Edit</button>
+                    <button class="btn btn-sm btn-danger btn-delete" data-id="${id}" data-type="${type}"><i class="fas fa-trash"></i> Delete</button>
+                </div>
+            `;
+            return div;
+        }
+
+        function createAdminTableRow(id, item, type) {
+            const tr = document.createElement('tr');
+            let customer = item.customerName;
+            let phone = item.customerPhone;
+            let title = '';
+            if (type === 'order') title = item.productTitle;
+            if (type === 'request') title = item.projectName;
+
+            tr.innerHTML = `
+                <td>${id.substring(0, 8)}</td>
+                <td>${title}</td>
+                <td>${customer}</td>
+                <td>${phone}</td>
+                <td><span class="order-status status-${item.status}">${item.status}</span></td>
+                <td>
+                    <button class="btn btn-sm btn-view" data-id="${id}" data-type="${type}"><i class="fas fa-eye"></i> View</button>
+                    <button class="btn btn-sm btn-danger btn-delete" data-id="${id}" data-type="${type}"><i class="fas fa-trash"></i> Delete</button>
+                </td>
+            `;
+            return tr;
+        }
+        
+        function setupAdminEventListeners(container) {
+            container.addEventListener('click', (e) => {
+                const target = e.target.closest('button');
+                if (!target) return;
+                const { id, type } = target.dataset;
+                if (target.classList.contains('btn-edit')) {
+                    editItem(id, type);
+                } else if (target.classList.contains('btn-delete')) {
+                    deleteItem(id, type);
+                } else if (target.classList.contains('btn-view')) {
+                    viewDetails(id, type);
+                }
+            });
+        }
+        
+        const renderAdminApps = (data) => renderAdminList(data, 'app', appsList);
+        const renderAdminBlog = (data) => renderAdminList(data, 'blog', blogList);
+        const renderAdminProjects = (data) => renderAdminList(data, 'project', projectsList);
+        const renderAdminGallery = (data) => renderAdminList(data, 'gallery', galleryList);
+        const renderAdminProducts = (data) => renderAdminList(data, 'product', productsList);
+        const renderAdminOrders = (data) => renderAdminTable(data, 'order', ordersList);
+        const renderAdminRequests = (data) => renderAdminTable(data, 'request', requestsList);
+
+        function renderAdminList(data, type, container) {
+            container.innerHTML = '';
+            Object.entries(data).forEach(([id, item]) => container.appendChild(createAdminItem(id, item, type)));
+            if (!container.dataset.listener) {
+                setupAdminEventListeners(container);
+                container.dataset.listener = true;
+            }
+        }
+        
+        function renderAdminTable(data, type, container) {
+            container.innerHTML = '';
+            Object.entries(data).forEach(([id, item]) => container.appendChild(createAdminTableRow(id, item, type)));
+            if (!container.dataset.listener) {
+                setupAdminEventListeners(container);
+                container.dataset.listener = true;
+            }
+        }
+        
+        // Edit, Delete, View functions
+        function editItem(id, type) {
+            database.ref(`${type}s/${id}`).once('value', (snapshot) => {
+                const item = snapshot.val();
+                if (!item) return;
+
+                if (type === 'app') {
+                    editingAppId = id;
+                    document.getElementById('app-title').value = item.title;
+                    document.getElementById('app-image').value = item.image;
+                    document.getElementById('app-description').value = item.description;
+                    document.getElementById('app-link').value = item.link;
+                    document.getElementById('app-rating').value = item.rating;
+                    document.getElementById('app-screenshots').value = item.screenshots ? item.screenshots.join(', ') : '';
+                } else if (type === 'blog') {
+                    editingBlogId = id;
+                    document.getElementById('blog-title').value = item.title;
+                    document.getElementById('blog-image').value = item.image;
+                    document.getElementById('blog-date').value = item.date;
+                    document.getElementById('blog-description').value = item.description;
+                    document.getElementById('blog-link').value = item.link;
+                    document.getElementById('blog-read-time').value = item.readTime;
+                } else if (type === 'project') {
+                    editingProjectId = id;
+                    document.getElementById('project-title').value = item.title;
+                    document.getElementById('project-image').value = item.image;
+                    document.getElementById('project-description').value = item.description;
+                    document.getElementById('project-link').value = item.link;
+                    document.getElementById('project-tags').value = item.tags.join(', ');
+                } else if (type === 'gallery') {
+                    editingGalleryId = id;
+                    document.getElementById('gallery-image').value = item.image;
+                    document.getElementById('gallery-title').value = item.title || '';
+                } else if (type === 'product') {
+                    editingProductId = id;
+                    document.getElementById('product-title').value = item.title;
+                    document.getElementById('product-image').value = item.image;
+                    document.getElementById('product-price').value = item.price;
+                    document.getElementById('product-category').value = item.category;
+                    document.getElementById('product-description').value = item.description;
+                }
                 
-                const appItem = document.createElement('div');
-                appItem.className = 'admin-item';
-                appItem.innerHTML = `
-                    <img src="${app.image}" alt="${app.title}" class="admin-item-img">
-                    <div class="admin-item-content">
-                        <h4 class="admin-item-title">${app.title}</h4>
-                        <p class="admin-item-desc">${app.description}</p>
-                        <div class="app-rating" title="${app.rating} out of 5 stars">${stars}</div>
-                    </div>
-                    <div class="admin-item-actions">
-                        <button class="btn btn-sm" onclick="editApp('${id}')">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteApp('${id}')">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </div>
-                `;
-                appsList.appendChild(appItem);
+                document.getElementById(`${type}-submit`).innerHTML = `<i class="fas fa-save"></i> Update ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+                document.getElementById(`${type}-cancel`).style.display = 'inline-block';
+                document.querySelector(`.admin-tab[data-tab="${type}s"]`).click();
+                document.getElementById(`admin-${type}s`).scrollIntoView({ behavior: 'smooth' });
             });
         }
-
-        function renderAdminBlog(blogData) {
-            blogList.innerHTML = '';
-            
-            if (!blogData) return;
-            
-            Object.entries(blogData).forEach(([id, post]) => {
-                const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-                
-                const blogItem = document.createElement('div');
-                blogItem.className = 'admin-item';
-                blogItem.innerHTML = `
-                    <img src="${post.image}" alt="${post.title}" class="admin-item-img">
-                    <div class="admin-item-content">
-                        <h4 class="admin-item-title">${post.title}</h4>
-                        <p class="admin-item-desc">${post.description.substring(0, 100)}...</p>
-                        <p class="admin-item-date">${formattedDate} ? ${post.readTime} min read</p>
-                    </div>
-                    <div class="admin-item-actions">
-                        <button class="btn btn-sm" onclick="editBlogPost('${id}')">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteBlogPost('${id}')">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </div>
-                `;
-                blogList.appendChild(blogItem);
+        
+        function deleteItem(id, type) {
+            if (confirm(`Are you sure you want to delete this ${type}?`)) {
+                database.ref(`${type}s/${id}`).remove()
+                    .catch(err => alert(`Error deleting ${type}: ${err.message}`));
+            }
+        }
+        
+        function viewDetails(id, type) {
+            database.ref(`${type}s/${id}`).once('value', (snapshot) => {
+                const item = snapshot.val();
+                if (item) {
+                    const details = Object.entries(item).map(([key, value]) => `${key}: ${value}`).join('\n');
+                    alert(`${type.charAt(0).toUpperCase() + type.slice(1)} Details:\n\n${details}`);
+                }
             });
-        }
-
-        function renderAdminProjects(projectsData) {
-            projectsList.innerHTML = '';
-            
-            if (!projectsData) return;
-            
-            Object.entries(projectsData).forEach(([id, project]) => {
-                const tagsHTML = project.tags.map(tag => 
-                    `<span class="project-tag">${tag}</span>`
-                ).join('');
-                
-                const projectItem = document.createElement('div');
-                projectItem.className = 'admin-item';
-                projectItem.innerHTML = `
-                    <img src="${project.image}" alt="${project.title}" class="admin-item-img">
-                    <div class="admin-item-content">
-                        <h4 class="admin-item-title">${project.title}</h4>
-                        <p class="admin-item-desc">${project.description}</p>
-                        <div class="project-tags">${tagsHTML}</div>
-                    </div>
-                    <div class="admin-item-actions">
-                        <button class="btn btn-sm" onclick="editProject('${id}')">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteProject('${id}')">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </div>
-                `;
-                projectsList.appendChild(projectItem);
-            });
-        }
-
-        function renderAdminGallery(galleryData) {
-            galleryList.innerHTML = '';
-            
-            if (!galleryData) return;
-            
-            Object.entries(galleryData).forEach(([id, galleryItem]) => {
-                const galleryItemElement = document.createElement('div');
-                galleryItemElement.className = 'admin-item';
-                galleryItemElement.innerHTML = `
-                    <img src="${galleryItem.image}" alt="${galleryItem.title || 'Gallery image'}" class="admin-item-img">
-                    <div class="admin-item-content">
-                        <h4 class="admin-item-title">${galleryItem.title || 'Untitled'}</h4>
-                        <p class="admin-item-desc">${galleryItem.image}</p>
-                    </div>
-                    <div class="admin-item-actions">
-                        <button class="btn btn-sm" onclick="editGalleryItem('${id}')">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteGalleryItem('${id}')">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </div>
-                `;
-                galleryList.appendChild(galleryItemElement);
-            });
-        }
-
-        function renderAdminProducts(productsData) {
-            productsList.innerHTML = '';
-            
-            if (!productsData) return;
-            
-            Object.entries(productsData).forEach(([id, product]) => {
-                const productItem = document.createElement('div');
-                productItem.className = 'admin-item';
-                productItem.innerHTML = `
-                    <img src="${product.image}" alt="${product.title}" class="admin-item-img">
-                    <div class="admin-item-content">
-                        <h4 class="admin-item-title">${product.title}</h4>
-                        <p class="admin-item-desc">${product.description}</p>
-                        <div class="admin-item-date">$${product.price.toFixed(2)} ? ${product.category}</div>
-                    </div>
-                    <div class="admin-item-actions">
-                        <button class="btn btn-sm" onclick="editProduct('${id}')">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteProduct('${id}')">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </div>
-                `;
-                productsList.appendChild(productItem);
-            });
-        }
-
-        function renderAdminOrders(ordersData) {
-            ordersList.innerHTML = '';
-            
-            if (!ordersData) return;
-            
-            Object.entries(ordersData).forEach(([id, order]) => {
-                const formattedDate = new Date(order.createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                });
-                
-                const statusClass = order.status === 'completed' ? 'status-completed' : 
-                                  order.status === 'cancelled' ? 'status-cancelled' : 'status-pending';
-                
-                const orderRow = document.createElement('tr');
-                orderRow.innerHTML = `
-                    <td>${id.substring(0, 8)}</td>
-                    <td>${order.productTitle}</td>
-                    <td>${order.customerName}</td>
-                    <td>${order.customerPhone}</td>
-                    <td><span class="order-status ${statusClass}">${order.status}</span></td>
-                    <td>
-                        <button class="btn btn-sm" onclick="viewOrderDetails('${id}')">
-                            <i class="fas fa-eye"></i> View
-                        </button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteOrder('${id}')">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </td>
-                `;
-                ordersList.appendChild(orderRow);
-            });
-        }
-
-        // Edit Functions
-        function editApp(id) {
-            database.ref('apps/' + id).once('value')
-                .then((snapshot) => {
-                    const app = snapshot.val();
-                    if (app) {
-                        editingAppId = id;
-                        document.getElementById('app-id').value = id;
-                        document.getElementById('app-title').value = app.title;
-                        document.getElementById('app-image').value = app.image;
-                        document.getElementById('app-description').value = app.description;
-                        document.getElementById('app-link').value = app.link;
-                        document.getElementById('app-rating').value = app.rating;
-                        document.getElementById('app-screenshots').value = app.screenshots ? app.screenshots.join(', ') : '';
-                        
-                        appSubmit.innerHTML = '<i class="fas fa-save"></i> Update App';
-                        appCancel.style.display = 'inline-block';
-                        
-                        // Switch to apps tab if not already
-                        document.querySelector('.admin-tab[data-tab="apps"]').click();
-                        
-                        // Scroll to form
-                        document.getElementById('admin-apps').scrollIntoView({ behavior: 'smooth' });
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching app:", error);
-                });
-        }
-
-        function editBlogPost(id) {
-            database.ref('blog/' + id).once('value')
-                .then((snapshot) => {
-                    const post = snapshot.val();
-                    if (post) {
-                        editingBlogId = id;
-                        document.getElementById('blog-id').value = id;
-                        document.getElementById('blog-title').value = post.title;
-                        document.getElementById('blog-image').value = post.image;
-                        document.getElementById('blog-date').value = post.date;
-                        document.getElementById('blog-description').value = post.description;
-                        document.getElementById('blog-link').value = post.link;
-                        document.getElementById('blog-read-time').value = post.readTime;
-                        
-                        blogSubmit.innerHTML = '<i class="fas fa-save"></i> Update Post';
-                        blogCancel.style.display = 'inline-block';
-                        
-                        // Switch to blog tab if not already
-                        document.querySelector('.admin-tab[data-tab="blog"]').click();
-                        
-                        // Scroll to form
-                        document.getElementById('admin-blog').scrollIntoView({ behavior: 'smooth' });
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching blog post:", error);
-                });
-        }
-
-        function editProject(id) {
-            database.ref('projects/' + id).once('value')
-                .then((snapshot) => {
-                    const project = snapshot.val();
-                    if (project) {
-                        editingProjectId = id;
-                        document.getElementById('project-id').value = id;
-                        document.getElementById('project-title').value = project.title;
-                        document.getElementById('project-image').value = project.image;
-                        document.getElementById('project-description').value = project.description;
-                        document.getElementById('project-link').value = project.link;
-                        document.getElementById('project-tags').value = project.tags.join(', ');
-                        
-                        projectSubmit.innerHTML = '<i class="fas fa-save"></i> Update Project';
-                        projectCancel.style.display = 'inline-block';
-                        
-                        // Switch to projects tab if not already
-                        document.querySelector('.admin-tab[data-tab="projects"]').click();
-                        
-                        // Scroll to form
-                        document.getElementById('admin-projects').scrollIntoView({ behavior: 'smooth' });
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching project:", error);
-                });
-        }
-
-        function editGalleryItem(id) {
-            database.ref('gallery/' + id).once('value')
-                .then((snapshot) => {
-                    const galleryItem = snapshot.val();
-                    if (galleryItem) {
-                        editingGalleryId = id;
-                        document.getElementById('gallery-id').value = id;
-                        document.getElementById('gallery-image').value = galleryItem.image;
-                        document.getElementById('gallery-title').value = galleryItem.title || '';
-                        
-                        gallerySubmit.innerHTML = '<i class="fas fa-save"></i> Update Photo';
-                        galleryCancel.style.display = 'inline-block';
-                        
-                        // Switch to gallery tab if not already
-                        document.querySelector('.admin-tab[data-tab="gallery"]').click();
-                        
-                        // Scroll to form
-                        document.getElementById('admin-gallery').scrollIntoView({ behavior: 'smooth' });
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching gallery item:", error);
-                });
-        }
-
-        function editProduct(id) {
-            database.ref('products/' + id).once('value')
-                .then((snapshot) => {
-                    const product = snapshot.val();
-                    if (product) {
-                        editingProductId = id;
-                        document.getElementById('product-id').value = id;
-                        document.getElementById('product-title').value = product.title;
-                        document.getElementById('product-image').value = product.image;
-                        document.getElementById('product-price').value = product.price;
-                        document.getElementById('product-category').value = product.category;
-                        document.getElementById('product-description').value = product.description;
-                        
-                        productSubmit.innerHTML = '<i class="fas fa-save"></i> Update Product';
-                        productCancel.style.display = 'inline-block';
-                        
-                        // Switch to store tab if not already
-                        document.querySelector('.admin-tab[data-tab="store"]').click();
-                        
-                        // Scroll to form
-                        document.getElementById('admin-store').scrollIntoView({ behavior: 'smooth' });
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching product:", error);
-                });
-        }
-
-        // Delete Functions
-        function deleteApp(id) {
-            if (confirm('Are you sure you want to delete this app? This action cannot be undone.')) {
-                database.ref('apps/' + id).remove()
-                    .then(() => {
-                        console.log("App deleted successfully");
-                    })
-                    .catch(error => {
-                        console.error("Error deleting app:", error);
-                        alert("Error deleting app. Please try again.");
-                    });
-            }
-        }
-
-        function deleteBlogPost(id) {
-            if (confirm('Are you sure you want to delete this blog post? This action cannot be undone.')) {
-                database.ref('blog/' + id).remove()
-                    .then(() => {
-                        console.log("Blog post deleted successfully");
-                    })
-                    .catch(error => {
-                        console.error("Error deleting blog post:", error);
-                        alert("Error deleting blog post. Please try again.");
-                    });
-            }
-        }
-
-        function deleteProject(id) {
-            if (confirm('Are you sure you want to delete this project? This action cannot be undone.')) {
-                database.ref('projects/' + id).remove()
-                    .then(() => {
-                        console.log("Project deleted successfully");
-                    })
-                    .catch(error => {
-                        console.error("Error deleting project:", error);
-                        alert("Error deleting project. Please try again.");
-                    });
-            }
-        }
-
-        function deleteGalleryItem(id) {
-            if (confirm('Are you sure you want to delete this gallery item? This action cannot be undone.')) {
-                database.ref('gallery/' + id).remove()
-                    .then(() => {
-                        console.log("Gallery item deleted successfully");
-                    })
-                    .catch(error => {
-                        console.error("Error deleting gallery item:", error);
-                        alert("Error deleting gallery item. Please try again.");
-                    });
-            }
-        }
-
-        function deleteProduct(id) {
-            if (confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
-                database.ref('products/' + id).remove()
-                    .then(() => {
-                        console.log("Product deleted successfully");
-                    })
-                    .catch(error => {
-                        console.error("Error deleting product:", error);
-                        alert("Error deleting product. Please try again.");
-                    });
-            }
-        }
-
-        function deleteOrder(id) {
-            if (confirm('Are you sure you want to delete this order? This action cannot be undone.')) {
-                database.ref('orders/' + id).remove()
-                    .then(() => {
-                        console.log("Order deleted successfully");
-                    })
-                    .catch(error => {
-                        console.error("Error deleting order:", error);
-                        alert("Error deleting order. Please try again.");
-                    });
-            }
-        }
-
-        function viewOrderDetails(id) {
-            database.ref('orders/' + id).once('value')
-                .then((snapshot) => {
-                    const order = snapshot.val();
-                    if (order) {
-                        alert(`Order Details:\n\n` +
-                              `Product: ${order.productTitle}\n` +
-                              `Customer: ${order.customerName}\n` +
-                              `Email: ${order.customerEmail}\n` +
-                              `Phone: ${order.customerPhone}\n` +
-                              `Country: ${order.customerCountry}\n` +
-                              `Address: ${order.customerAddress}\n` +
-                              `Status: ${order.status}\n` +
-                              `Notes: ${order.notes || 'None'}\n` +
-                              `Date: ${new Date(order.createdAt).toLocaleString()}`);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching order:", error);
-                });
-        }
-
-        function viewBlogPost(id) {
-            database.ref('blog/' + id).once('value')
-                .then((snapshot) => {
-                    const post = snapshot.val();
-                    if (post) {
-                        const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        });
-                        
-                        blogModalImage.src = post.image;
-                        blogModalImage.alt = post.title;
-                        blogModalTitle.textContent = post.title;
-                        blogModalDate.textContent = formattedDate;
-                        blogModalContent.innerHTML = post.description;
-                        
-                        // Update social sharing links
-                        const currentUrl = encodeURIComponent(window.location.href.split('#')[0] + '#blog');
-                        const shareText = encodeURIComponent(`Check out this blog post: ${post.title} by Nayeem Hossen`);
-                        
-                        facebookShare.href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
-                        twitterShare.href = `https://twitter.com/intent/tweet?text=${shareText}&url=${currentUrl}`;
-                        
-                        blogModal.classList.add('active');
-                        
-                        // Update the page title for SEO when viewing a blog post
-                        document.title = `${post.title} | NayeemPlayz Blog`;
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching blog post:", error);
-                });
         }
 
         function viewAppDetails(id) {
-            database.ref('apps/' + id).once('value')
-                .then((snapshot) => {
-                    const app = snapshot.val();
-                    if (app) {
-                        const stars = '?'.repeat(Math.floor(app.rating)) + '?'.repeat(5 - Math.ceil(app.rating));
-                        
-                        appModalIcon.src = app.image;
-                        appModalIcon.alt = app.title;
-                        appModalTitle.textContent = app.title;
-                        appModalRating.textContent = `${stars} (${app.rating.toFixed(1)})`;
-                        appModalContent.innerHTML = app.description;
-                        appDownloadBtn.href = app.link;
-                        
-                        // Clear previous screenshots
-                        appModalScreenshots.innerHTML = '';
-                        
-                        // Add screenshots if available
-                        if (app.screenshots && app.screenshots.length > 0) {
-                            app.screenshots.forEach(screenshot => {
-                                const screenshotElement = document.createElement('img');
-                                screenshotElement.src = screenshot;
-                                screenshotElement.alt = `${app.title} screenshot`;
-                                screenshotElement.className = 'app-screenshot';
-                                appModalScreenshots.appendChild(screenshotElement);
-                            });
-                        } else {
-                            const noScreenshots = document.createElement('p');
-                            noScreenshots.textContent = 'No screenshots available for this app.';
-                            noScreenshots.style.textAlign = 'center';
-                            noScreenshots.style.color = 'var(--light-dark)';
-                            appModalScreenshots.appendChild(noScreenshots);
-                        }
-                        
-                        appModal.classList.add('active');
-                        
-                        // Update the page title for SEO when viewing an app
-                        document.title = `${app.title} | NayeemPlayz Apps`;
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching app:", error);
-                });
+            database.ref(`apps/${id}`).once('value', (snapshot) => {
+                const app = snapshot.val();
+                if (app) {
+                    appModalIcon.src = app.image;
+                    appModalTitle.textContent = app.title;
+                    appModalRating.innerHTML = `${'★'.repeat(Math.round(app.rating))}${'☆'.repeat(5 - Math.round(app.rating))} (${app.rating.toFixed(1)})`;
+                    appModalContent.innerHTML = app.description.replace(/\n/g, '<br>');
+                    appDownloadBtn.href = app.link;
+                    appModalScreenshots.innerHTML = app.screenshots?.map(src => `<img src="${src}" alt="${app.title} screenshot" class="app-screenshot">`).join('') || '<p>No screenshots available.</p>';
+                    appModal.classList.add('active');
+                }
+            });
         }
 
-        function openGalleryModal(id) {
-            currentGalleryIndex = galleryItems.findIndex(item => item.id === id);
-            if (currentGalleryIndex >= 0) {
+        function viewBlogPost(id) {
+            database.ref(`blog/${id}`).once('value', (snapshot) => {
+                const post = snapshot.val();
+                if (post) {
+                    blogModalImage.src = post.image;
+                    blogModalTitle.textContent = post.title;
+                    blogModalDate.textContent = new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                    blogModalContent.innerHTML = post.description.replace(/\n/g, '<br>');
+                    blogModal.classList.add('active');
+                }
+            });
+        }
+        
+        function viewProjectDetails(id) {
+            database.ref(`projects/${id}`).once('value', (snapshot) => {
+                const project = snapshot.val();
+                if (project) {
+                    projectModalImage.src = project.image;
+                    projectModalTitle.textContent = project.title;
+                    projectModalContent.innerHTML = project.description.replace(/\n/g, '<br>');
+                    projectViewBtn.href = project.link;
+                    projectModal.classList.add('active');
+                }
+            });
+        }
+
+        function openGalleryModal(index) {
+            currentGalleryIndex = parseInt(index);
+            updateGalleryModal();
+            galleryModal.classList.add('active');
+        }
+        
+        function updateGalleryModal() {
+            if (galleryItems[currentGalleryIndex]) {
                 galleryModalImg.src = galleryItems[currentGalleryIndex].image;
                 galleryModalImg.alt = galleryItems[currentGalleryIndex].title || 'Gallery image';
-                galleryModal.classList.add('active');
             }
         }
 
         function navigateGallery(direction) {
-            currentGalleryIndex += direction;
-            
-            // Wrap around if at beginning or end
-            if (currentGalleryIndex < 0) {
-                currentGalleryIndex = galleryItems.length - 1;
-            } else if (currentGalleryIndex >= galleryItems.length) {
-                currentGalleryIndex = 0;
-            }
-            
-            galleryModalImg.src = galleryItems[currentGalleryIndex].image;
-            galleryModalImg.alt = galleryItems[currentGalleryIndex].title || 'Gallery image';
+            currentGalleryIndex = (currentGalleryIndex + direction + galleryItems.length) % galleryItems.length;
+            updateGalleryModal();
         }
 
-        // Order Modal Function
         function openOrderModal(productId, productTitle) {
-            currentOrderProductId = productId;
             document.getElementById('order-product-id').value = productId;
             document.getElementById('order-product-title').textContent = `Product: ${productTitle}`;
             orderModal.classList.add('active');
         }
 
-        // Copy Website Link Function
-        function copyWebsiteLink() {
-            const websiteLink = window.location.href.split('#')[0];
-            navigator.clipboard.writeText(websiteLink)
-                .then(() => {
-                    alert('Website link copied to clipboard!');
-                })
-                .catch(err => {
-                    console.error('Failed to copy link: ', err);
-                    // Fallback for browsers that don't support clipboard API
-                    const textarea = document.createElement('textarea');
-                    textarea.value = websiteLink;
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textarea);
-                    alert('Website link copied to clipboard!');
-                });
+        function resetFormState(type) {
+            document.getElementById(`${type}-form`).reset();
+            window[`editing${type.charAt(0).toUpperCase() + type.slice(1)}Id`] = null;
+            document.getElementById(`${type}-submit`).innerHTML = `<i class="fas fa-save"></i> Save ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+            document.getElementById(`${type}-cancel`).style.display = 'none';
         }
-
-        // Reset Forms
+        
         function resetForms() {
-            appForm.reset();
-            blogForm.reset();
-            projectForm.reset();
-            galleryForm.reset();
-            productForm.reset();
-            
-            editingAppId = null;
-            editingBlogId = null;
-            editingProjectId = null;
-            editingGalleryId = null;
-            editingProductId = null;
-            
-            appSubmit.innerHTML = '<i class="fas fa-save"></i> Save App';
-            blogSubmit.innerHTML = '<i class="fas fa-save"></i> Save Post';
-            projectSubmit.innerHTML = '<i class="fas fa-save"></i> Save Project';
-            gallerySubmit.innerHTML = '<i class="fas fa-save"></i> Save Photo';
-            productSubmit.innerHTML = '<i class="fas fa-save"></i> Save Product';
-            
-            appCancel.style.display = 'none';
-            blogCancel.style.display = 'none';
-            projectCancel.style.display = 'none';
-            galleryCancel.style.display = 'none';
-            productCancel.style.display = 'none';
+            ['app', 'blog', 'project', 'gallery', 'product'].forEach(type => resetFormState(type));
         }
 
-        // Make functions available globally for onclick events
-        window.editApp = editApp;
-        window.deleteApp = deleteApp;
-        window.editBlogPost = editBlogPost;
-        window.deleteBlogPost = deleteBlogPost;
-        window.editProject = editProject;
-        window.deleteProject = deleteProject;
-        window.editGalleryItem = editGalleryItem;
-        window.deleteGalleryItem = deleteGalleryItem;
-        window.editProduct = editProduct;
-        window.deleteProduct = deleteProduct;
-        window.deleteOrder = deleteOrder;
-        window.viewOrderDetails = viewOrderDetails;
-        window.viewBlogPost = viewBlogPost;
-        window.viewAppDetails = viewAppDetails;
-        window.openOrderModal = openOrderModal;
-        window.copyWebsiteLink = copyWebsiteLink;
     </script>
 </body>
 </html>
