@@ -128,38 +128,99 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 .page-intro{padding:42px 0 24px}.page-intro h1{font-size:clamp(36px,7vw,64px);line-height:1.05;letter-spacing:-1.5px}.page-intro p{color:var(--mute);max-width:680px;margin-top:12px}.page-content{min-height:50vh}.nav-current{border-bottom:2px solid var(--lime)}button,a,[role="button"]{-webkit-tap-highlight-color:transparent}a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none}
 body.admin-page .cms-overlay{display:block}
 @media(max-width:820px){.page-intro{padding-top:28px}}
-/* Mobile responsive Rich Text Editor */
+
+/* Responsive Rich Text Editor — Mobile + Desktop */
+
+/* Keep editor and toolbar within the available width */
+.cms-editor-wrap,
+.cms-editor,
 .ql-toolbar,
 .ql-container,
 .ql-editor {
   box-sizing: border-box;
   max-width: 100%;
+  min-width: 0;
+}
+
+.cms-editor-wrap {
+  width: 100%;
+  overflow: hidden;
 }
 
 .ql-toolbar {
   display: flex;
   flex-wrap: wrap;
-  overflow-x: hidden;
+  align-items: center;
+  overflow-x: auto;
 }
 
 .ql-editor {
   overflow-wrap: anywhere;
-  word-break: break-word;
+  word-break: normal;
 }
 
+/* Images inside the editor and published detail pages */
 .ql-editor img,
-.ql-editor video,
+.cms-editor .ql-editor img,
+.dbody img,
 .post-content img,
 .blog-content img,
 .app-content img,
 .project-content img {
+  display: block;
   max-width: 100% !important;
   height: auto !important;
   box-sizing: border-box;
+  object-fit: contain;
+  margin: 12px auto;
 }
 
-html,
-body {
+/* Prevent wide content from expanding the page */
+.dbody,
+.post-content,
+.blog-content,
+.app-content,
+.project-content {
+  min-width: 0;
   max-width: 100%;
-  overflow-x: clip;
+  overflow-wrap: anywhere;
+}
+
+.dbody iframe,
+.dbody video,
+.ql-editor video {
+  max-width: 100%;
+}
+
+/* Mobile-specific image sizing */
+@media (max-width: 600px) {
+  .cms-overlay {
+    overflow-x: hidden;
+  }
+
+  .cms-shell,
+  .cms-grid,
+  .cms-card,
+  .cms-editor-wrap {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .ql-toolbar {
+    gap: 2px;
+  }
+
+  .ql-editor img,
+  .cms-editor .ql-editor img,
+  .dbody img,
+  .post-content img,
+  .blog-content img,
+  .app-content img,
+  .project-content img {
+    width: auto !important;
+    max-width: 100% !important;
+    max-height: 75vh;
+    height: auto !important;
+    object-fit: contain;
+  }
 }
