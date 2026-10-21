@@ -63,6 +63,34 @@ if(galBox){
 const stars=r=>{r=Math.max(0,Math.min(5,Math.round(Number(r)||0)));return '\u2605'.repeat(r)+'\u2606'.repeat(5-r)};
 const Q=s=>document.querySelector(s);
 const store={projects:[],apps:[],blog:[]};
+
+/* Fast first paint: render the most recent public data saved by this browser,
+   then refresh it from Firebase in the background. */
+const PUBLIC_CACHE_KEY='nayeemplayz_public_data_v1';
+function readPublicCache(){
+  try{
+    const raw=localStorage.getItem(PUBLIC_CACHE_KEY);
+    if(!raw)return null;
+    const data=JSON.parse(raw);
+    return data&&typeof data==='object'?data:null;
+  }catch(e){return null}
+}
+function writePublicCache(key,value){
+  try{
+    const data=readPublicCache()||{};
+    data[key]=value||{};
+    data.updatedAt=Date.now();
+    localStorage.setItem(PUBLIC_CACHE_KEY,JSON.stringify(data));
+  }catch(e){/* Storage may be unavailable or full; Firebase remains the source of truth. */}
+}
+function renderCachedPublicData(){
+  const cached=readPublicCache();
+  if(!cached)return;
+  if(cached.projects)renderProjects(cached.projects);
+  if(cached.apps)renderApps(cached.apps);
+  if(cached.blog)renderBlog(cached.blog);
+  if(cached.gallery)renderGallery(cached.gallery);
+}
 function renderApps(v){
   const box=Q('#apps-grid'),items=list(v).reverse();
   if(!box||!items.length)return;store.apps=items;
@@ -109,15 +137,22 @@ const L1='Shimeji AI pet app. Chat, play and keep a tiny AI buddy on your phone 
 renderProjects({p1:{title:'Nimo Buddy',description:L1,link:'',tags:['Android','AI']},p2:{title:'Dark Playz',description:'Gaming and utility app.\n\nSample text.',link:'',tags:['Android','Tools']},p3:{title:'Portfolio Website',description:'My personal website.\n\nSample text.',link:'',tags:['Web','Design']}});
 renderApps({a2:{title:'Dark Playz',description:'Gaming and utility app.\n\nSample text.',rating:4,link:''},a1:{title:'Nimo Buddy',description:L1,rating:5,link:''}});
 renderBlog({b1:{title:'How I Built My First Android App',date:'2025-10-12',readTime:5,description:'My journey, challenges and what I learned while building my first real Android application.\n\nSample text.'},b2:{title:'Web Development Roadmap for Beginners',date:'2025-10-08',readTime:4,description:'A simple roadmap to start your web development journey in 2025.\n\nSample text.'},b3:{title:'Tips for Better Content Creation',date:'2025-10-01',readTime:3,description:'How I plan, shoot and edit my content for social media and YouTube.\n\nSample text.'}});
+// Replace sample fallback cards immediately when this browser has cached real posts.
+renderCachedPublicData();
 route();
 const SDK=[['https://www.gstatic.com/firebasejs/9.6.0/','https://cdn.jsdelivr.net/npm/firebase@9.6.0/']];
 const load=src=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=()=>no(new Error('blocked: '+src));document.head.appendChild(s)});
 async function loadSDK(){
   const files=['firebase-app-compat.js','firebase-auth-compat.js','firebase-database-compat.js'];
+  let lastError=null;
   for(const base of SDK[0]){
-    try{for(const f of files)await load(base+f);if(typeof firebase!=='undefined')return}catch(e){console.warn(e.message)}
+    try{
+      await load(base+files[0]);
+      await Promise.all([load(base+files[1]),load(base+files[2])]);
+      if(typeof firebase!=='undefined')return;
+    }catch(e){lastError=e;console.warn('Firebase SDK source failed:',e.message)}
   }
-  throw new Error('Firebase SDK did not load (both gstatic and jsDelivr failed). Open the page from your own hosting or a normal browser tab, not inside a preview that blocks network requests.');
+  throw new Error('Firebase SDK did not load. '+(lastError&&lastError.message||'Check network access.'));
 }
 
 let cmsDb=null,cmsAuth=null,cmsQuill=null,cmsEditorReady=false,cmsCache={};
@@ -143,10 +178,22 @@ function start(){
 
   const db=firebase.database();
   const err=n=>e=>console.warn('Firebase "'+n+'" could not be read (check Realtime Database rules):',e&&e.message);
-  db.ref('projects').on('value',s=>{renderProjects(s.val());route()},err('projects'));
-  db.ref('blog').on('value',s=>{renderBlog(s.val());route()},err('blog'));
-  db.ref('gallery').on('value',s=>renderGallery(s.val()),err('gallery'));
-  db.ref('apps').on('value',s=>{renderApps(s.val());route()},err('apps'));
+
+  // Load only the collection needed by this page. The homepage still loads all
+  // collections, while dedicated pages avoid waiting for unrelated data.
+  const path=(location.pathname.split('/').pop()||'index.html').toLowerCase();
+  const isHome=path===''||path==='index.html';
+  const need={
+    projects:isHome||path==='projects.html'||/^#project\//.test(location.hash),
+    blog:isHome||path==='blog.html'||/^#blog\//.test(location.hash),
+    gallery:isHome||path==='gallery.html',
+    apps:isHome||path==='apps.html'||/^#app\//.test(location.hash)
+  };
+
+  if(need.projects)db.ref('projects').on('value',s=>{const v=s.val()||{};writePublicCache('projects',v);renderProjects(v);route()},err('projects'));
+  if(need.blog)db.ref('blog').on('value',s=>{const v=s.val()||{};writePublicCache('blog',v);renderBlog(v);route()},err('blog'));
+  if(need.gallery)db.ref('gallery').on('value',s=>{const v=s.val()||{};writePublicCache('gallery',v);renderGallery(v)},err('gallery'));
+  if(need.apps)db.ref('apps').on('value',s=>{const v=s.val()||{};writePublicCache('apps',v);renderApps(v);route()},err('apps'));
 }
 (typeof firebase!=='undefined'?Promise.resolve():loadSDK()).then(start).catch(e=>console.warn(e.message));
 })();
