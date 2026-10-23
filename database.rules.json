@@ -1,0 +1,9 @@
+{
+  "rules": {
+    "blog":     { ".read": true, ".write": "auth != null && auth.token.email == 'YOUR_ADMIN_EMAIL'" },
+    "projects": { ".read": true, ".write": "auth != null && auth.token.email == 'YOUR_ADMIN_EMAIL'" },
+    "apps":     { ".read": true, ".write": "auth != null && auth.token.email == 'YOUR_ADMIN_EMAIL'" },
+    "gallery":  { ".read": true, ".write": "auth != null && auth.token.email == 'YOUR_ADMIN_EMAIL'" },
+    "settings": { ".read": "auth != null && auth.token.email == 'YOUR_ADMIN_EMAIL'", ".write": "auth != null && auth.token.email == 'YOUR_ADMIN_EMAIL'" }
+  }
+}
