@@ -6,11 +6,12 @@
   included_files = ["index.html"]
 
 # Pages that need server-side SEO tags
+# Home page: the static index.html is served (safe even if functions are not deployed).
+# To also fill the home page tags on the server, add "force = true" below after you confirm the functions work.
 [[redirects]]
   from = "/"
   to = "/.netlify/functions/page"
   status = 200
-  force = true
 
 [[redirects]]
   from = "/blog/*"
