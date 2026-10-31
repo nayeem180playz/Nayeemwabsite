@@ -1,0 +1,48 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  included_files = ["index.html"]
+
+# Pages that need server-side SEO tags
+[[redirects]]
+  from = "/"
+  to = "/.netlify/functions/page"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/blog/*"
+  to = "/.netlify/functions/page"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/project/*"
+  to = "/.netlify/functions/page"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/app/*"
+  to = "/.netlify/functions/page"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/.netlify/functions/sitemap"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/.netlify/functions/sitemap"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200
